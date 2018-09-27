@@ -75,7 +75,7 @@ ul {
   padding: 0;
 }
 li {
-  display: inline-block;
+  display: block;
   margin: 0 10px;
 }
 a {
@@ -83,14 +83,13 @@ a {
 }
 input {
   display: block;
-  margin: 0 auto;
+  margin: 10px auto 20px;
   height: 40px;
   width: 600px;
   outline: 0;
   border: 1px solid #ddd;
   border-radius: 7px;
   padding: 3px 10px;
-  margin: 10px;
   font-size: 16px;
   text-align: center;
 }
