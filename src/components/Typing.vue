@@ -1,63 +1,39 @@
 <template>
   <div>
-    <h1>{{ msg }}</h1>
-    <section>
-      <button @click="handleStart">Start</button>
-      <ul>
-        <li
-          v-for="item in TypingData"
-          v-bind:key="item.id">
-            {{item.text}}
-            <input
-              type="text"
-              :readonly="item.readonly"
-              :disabled="item.disabled == 1" 
-              ref="item.ref"
-              v-model="item.inputValue"
-              @keyup.enter="handleTextCheck(item)">
-        </li>
-      </ul>
-    </section>
+    <ul>
+      <TypingQuestion
+        v-for="(x, i) in questionDate"
+        :key="i"
+        :index="i"
+        :question="x"
+        :active="active === i"
+        :onSuccess="onSuccess"
+      />
+    </ul>
   </div>
 </template>
 
 <script>
+import TypingQuestion from './TypingQuestion.vue'
 export default {
   name: 'TypingExercise',
   props: {
-    msg: String
+    name: String,
+    handleStop: Function,
+    questionDate: Array
   },
+  components: {TypingQuestion},
   data () {
     return {
-      TypingData: [{
-        id: 0,
-        readonly: true,
-        disabled: 0,
-        ref: "first",
-        inputValue: '',
-        text: '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세'
-      }, {
-        id: 1,
-        readonly: true,
-        disabled: 0,
-        ref: "second",
-        inputValue: '',
-        text: '무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세'
-      }]
+      active: 0
     }
   },
   methods: {
     handleStart() {
       this.TypingData[0].readonly = false
     },
-    handleTextCheck(item) {
-      if(item.text === item.inputValue) {
-        item.disabled = 1
-        this.TypingData[1].readonly = false
-        this.setFocus()
-      } else {
-        alert('오타가 있습니다. 다시 치세요')
-      }
+    onSuccess(index) {
+      this.active = index + 1
     },
     setFocus() {
       this.$refs.second.focus()
