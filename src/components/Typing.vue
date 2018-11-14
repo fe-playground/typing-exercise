@@ -16,13 +16,11 @@
 </template>
 
 <script>
-import TypingQuestion from './TypingQuestion.vue'
 export default {
   name: 'TypingExercise',
   props: {
     questionDate: Array
   },
-  components: {TypingQuestion},
   data () {
     return {
       active: 0
