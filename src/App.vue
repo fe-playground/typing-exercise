@@ -3,33 +3,33 @@
     <div v-show="!start">
       <h2>사용자 이름 입력</h2>
       <input 
-      type="text" v-model="name" placeholder="이름을 입력하세요" @keyup.enter="handleStart">
-      <button @click="handleStart">시작</button>
-      
+        type="text"
+        :value="name"
+        @input="updateName"
+        placeholder="이름을 입력하세요"
+        @keyup.enter="SET_START(true)"
+      >
+      <button @click="SET_START(true)">시작</button>
     </div>
     <div v-if="start">
       <p>{{name}}님 타이핑 화이팅!</p>
-      <button @click="start=false">다시시작</button>
+      <button @click="SET_START(false)">다시시작</button>
     </div>
-    <!-- <StopWatch/> -->
     <Typing 
       v-if="start"
-      :handleStop="handleStop"
       :questionDate="questionDate"
     />
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 import Typing from './components/Typing.vue'
-import StopWatch from './components/StopWatch.vue'
 
 export default {
   name: 'app',
   data () {
     return {
-      name: '',
-      start: false,
       questionDate: [
         '안녕하세요',
         '반갑습니다',
@@ -39,23 +39,24 @@ export default {
     }
   },
   components: {
-    Typing,
-    StopWatch
+    Typing
+  },
+  computed: {
+    ...mapState([
+      'name',
+      'start'
+    ])
   },
   methods: {
-    handleStart() {
-      if( this.name !== '' ) {
-        this.start = true
-        this.handleStopWatch
-      } else {
-        alert('이름을 입력하세요')
-      }
+    ...mapMutations([
+      'SET_START',
+      'UPDATE_NAME'
+    ]),
+    updateName(e) {
+      this.$store.commit('UPDATE_NAME', e.target.value)
     },
     handleStop() {
       this.start = false
-    },
-    handleStopWatch() {
-      // console.log('123')
     }
   }
 }

@@ -1,14 +1,16 @@
 <template>
   <div>
     <ul>
-      <TypingQuestion
-        v-for="(x, i) in questionDate"
-        :key="i"
-        :index="i"
-        :question="x"
-        :active="active === i"
-        :onSuccess="onSuccess"
-      />
+      <li v-for="(question, i) in questionDate" :key="i">
+        <p>{{question}}</p>
+        <input
+          type="text"
+          ref="questionText"
+          :autofocus="active === i"
+          :readonly="active !== i"
+          @keyup.enter="handleCheck"
+        >
+      </li>
     </ul>
   </div>
 </template>
@@ -18,8 +20,6 @@ import TypingQuestion from './TypingQuestion.vue'
 export default {
   name: 'TypingExercise',
   props: {
-    name: String,
-    handleStop: Function,
     questionDate: Array
   },
   components: {TypingQuestion},
@@ -29,14 +29,18 @@ export default {
     }
   },
   methods: {
-    handleStart() {
-      this.TypingData[0].readonly = false
-    },
-    onSuccess(index) {
-      this.active = index + 1
-    },
-    setFocus() {
-      this.$refs.second.focus()
+    handleCheck(e) {
+      if (this.questionDate[this.active] === e.target.value) {
+        this.active++
+        if ( this.active < this.questionDate.length) {
+          alert('ok! 다음문장을 치세요')
+          this.$refs.questionText[this.active].focus()
+        } else {
+          alert('end')
+        }
+      } else {
+        alert('오타가 있습니다. 다시 치세요')
+      }
     }
   }
 }
