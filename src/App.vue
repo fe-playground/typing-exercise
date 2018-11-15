@@ -19,12 +19,14 @@
       v-if="start"
       :questionDate="questionDate"
     />
+    <Popup/>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
 import Typing from './components/Typing.vue'
+import Popup from './components/Popup.vue'
 
 export default {
   name: 'app',
@@ -39,7 +41,8 @@ export default {
     }
   },
   components: {
-    Typing
+    Typing,
+    Popup
   },
   computed: {
     ...mapState([

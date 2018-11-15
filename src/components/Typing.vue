@@ -31,13 +31,25 @@ export default {
       if (this.questionDate[this.active] === e.target.value) {
         this.active++
         if ( this.active < this.questionDate.length) {
-          alert('ok! 다음문장을 치세요')
+          this.$EventBus.$emit('SHOW_POPUP', {
+            title: '굿',
+            text: '잘쳤어요',
+            btnText: '다음문장'
+          })
           this.$refs.questionText[this.active].focus()
         } else {
-          alert('end')
+          this.$EventBus.$emit('SHOW_POPUP', {
+            title: '굿',
+            text: '다쳤어요',
+            btnText: '끝'
+          })
         }
       } else {
-        alert('오타가 있습니다. 다시 치세요')
+        this.$EventBus.$emit('SHOW_POPUP', {
+          title: '이런',
+          text: '오타가있어요',
+          btnText: '다시'
+        })
       }
     }
   }
